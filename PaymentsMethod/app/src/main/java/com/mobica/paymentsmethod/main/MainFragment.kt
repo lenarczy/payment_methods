@@ -16,7 +16,7 @@ import com.mobica.paymentsmethod.paycard.CARD_IMAGE
 import com.mobica.paymentsmethod.paycard.CARD_INFO
 import com.mobica.paymentsmethod.paycard.PayCardDelegate
 import com.mobica.paymentsmethod.paypal.PayPalDelegate
-import kotlinx.android.synthetic.main.fragment_start.*
+import kotlinx.android.synthetic.main.fragment_main.*
 import timber.log.Timber
 
 
@@ -56,7 +56,7 @@ class StartFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_start, container, false)
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
