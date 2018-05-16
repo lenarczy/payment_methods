@@ -10,9 +10,14 @@
     android:padding="16dp">
     <TextView
         android:id="@+id/titleTw"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         tools:text="Pay Card"/>
-
+    <TextView
+        android:id="@+id/subtitleTw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:text="payment method"/>
 </LinearLayout>

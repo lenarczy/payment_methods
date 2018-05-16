@@ -7,17 +7,19 @@ import com.mobica.paymentsmethod.R
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), StartFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(myToolbar)
         Timber.tag("LifeCycles")
-        val transaction = supportFragmentManager.beginTransaction()
-        val startFragment = StartFragment.newInstance()
-        transaction.add(R.id.main_fragment_container, startFragment)
-        transaction.commit()
         Timber.d("MainActivity created")
+        if (savedInstanceState == null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            val startFragment = MainFragment.newInstance()
+            transaction.replace(R.id.main_fragment_container, startFragment)
+            transaction.commit()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

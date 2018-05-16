@@ -28,39 +28,44 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [StartFragment.OnFragmentInteractionListener] interface
+ * [MainFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [StartFragment.newInstance] factory method to
+ * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
  */
-class StartFragment : Fragment() {
+class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-    private val methodDelegates = HashMap<String, PaymentMethodDelegate>()
+    private val methodDelegates = HashMap<PaymentItem, PaymentMethodDelegate>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.d("onCreate $this")
         arguments?.let {
             param1 = it.getString(CARD_INFO)
             param2 = it.getString(CARD_IMAGE)
         }
         methodDelegates.apply {
-            put("Pay Card", PayCardDelegate(this@StartFragment))
-            put("Card IO", CardIODelegate(this@StartFragment))
-            put("Google Pay", GPayDelegate(this@StartFragment))
-            put( "Pay pal", PayPalDelegate(this@StartFragment))
+            val scannerSubtitle = context?.getString(R.string.card_scanner_subtitle) ?: ""
+            val paymentMethodSubtitle = context?.getString(R.string.payment_method_subtitle) ?: ""
+            put(PaymentItem("Pay Card", scannerSubtitle), PayCardDelegate(this@MainFragment))
+//            put(PaymentItem("Card IO", scannerSubtitle), CardIODelegate(this@MainFragment))
+            put(PaymentItem("Google Pay", paymentMethodSubtitle), GPayDelegate(this@MainFragment))
+            put(PaymentItem( "Pay pal", paymentMethodSubtitle), PayPalDelegate(this@MainFragment))
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        Timber.d("onCreateView")
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated")
         paymentMethodList.layoutManager = LinearLayoutManager(context)
         paymentMethodList.adapter = PaymentMethodsAdapter(methodDelegates.keys.toList()) {
             val delegate = methodDelegates[it]
@@ -128,18 +133,16 @@ class StartFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment StartFragment.
+         * @return A new instance of fragment MainFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String = "", param2: String = "") =
-                StartFragment().apply {
+                MainFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                         putString(ARG_PARAM2, param2)
                     }
                 }
-
-        private val methods = listOf("Pay Card", "Card IO", "Google Pay", "Pay pal")
     }
 }
