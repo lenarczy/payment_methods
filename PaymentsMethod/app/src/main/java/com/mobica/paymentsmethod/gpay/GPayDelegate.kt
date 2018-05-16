@@ -5,6 +5,11 @@ import android.support.v4.app.Fragment
 import com.mobica.paymentsmethod.PaymentMethodDelegate
 
 class GPayDelegate(private val fragment: Fragment) : PaymentMethodDelegate {
+
+    override fun init() {
+        //left empty intentionally
+    }
+
     override fun requestCode() = 3
 
     override fun startActivityForResult() {

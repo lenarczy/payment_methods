@@ -7,6 +7,10 @@ import com.mobica.paymentsmethod.PaymentMethodDelegate
 
 class CardIODelegate(private val fragment: Fragment) : PaymentMethodDelegate {
 
+    override fun init() {
+        //left empty intentionally
+    }
+
     override fun requestCode() = 2
 
     override fun startActivityForResult() {

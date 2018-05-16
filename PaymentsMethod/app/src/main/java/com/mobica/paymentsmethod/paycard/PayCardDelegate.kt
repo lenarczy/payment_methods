@@ -11,6 +11,10 @@ import timber.log.Timber
 
 class PayCardDelegate(private val fragment: Fragment): PaymentMethodDelegate {
 
+    override fun init() {
+        //left empty intentionally
+    }
+
     override fun requestCode() = 1
 
     override fun startActivityForResult() {

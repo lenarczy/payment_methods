@@ -4,6 +4,7 @@ import android.content.Intent
 import timber.log.Timber
 
 interface PaymentMethodDelegate {
+    fun init()
     fun requestCode(): Int
     fun startActivityForResult()
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {

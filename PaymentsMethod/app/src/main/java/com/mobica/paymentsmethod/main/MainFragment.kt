@@ -81,6 +81,10 @@ class StartFragment : Fragment() {
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
+
+        methodDelegates.values.forEach {
+            it.init()
+        }
     }
 
     override fun onDetach() {
