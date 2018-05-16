@@ -19,6 +19,6 @@ class PayPalDelegate(private val fragment: Fragment): PaymentMethodDelegate {
     }
 
     override fun handleActivityResult(resultCode: Int, data: Intent?) {
-        payPalDelegateHandler.handlePaypalData(data)
+        payPalDelegateHandler.handlePaypalData(fragment.context, data)
     }
 }

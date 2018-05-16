@@ -7,10 +7,15 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.mobica.paymentsmethod.R;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.net.HttpURLConnection;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -51,10 +56,14 @@ public class PayPalDelegateHandler {
 		fragment.startActivityForResult(dropInRequest.getIntent(fragment.getContext()), requestCode);
 	}
 
-	public void handlePaypalData(Intent data) {
+	public void handlePaypalData(Context context, Intent data) {
+		if (data == null) {
+			Log.d(TAG, "No data returned");
+			return;
+		}
 		DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
 		if (result == null) {
-			Log.d(TAG, "No payment data returned");
+			Log.d(TAG, "No drop in data returned");
 			return;
 		}
 		PaymentMethodNonce paymentMethodNonce = result.getPaymentMethodNonce();
@@ -64,10 +73,10 @@ public class PayPalDelegateHandler {
 		}
 		String nonce = result.getPaymentMethodNonce().getNonce();
 		Log.d(TAG, "Result from Paypal activity: " + nonce);
-		postNonceToServer(nonce);
+		postNonceToServer(context, nonce);
 	}
 
-	private void postNonceToServer(String nonce) {
+	private void postNonceToServer(final Context context, String nonce) {
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		//TODO: replace test nonce with one returned from server
@@ -78,12 +87,24 @@ public class PayPalDelegateHandler {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 						Log.d(TAG, "Response after post nonce to server.statusCode: " + statusCode);
+						handleResponseCode(context, statusCode);
 					}
 
 					@Override
 					public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 						Log.d(TAG, "Failure response after post nonce to server. statusCode: " + statusCode);
 						Log.d(TAG, "Failure response after post nonce to server. Error: " + error.getMessage());
+						handleResponseCode(context, statusCode);
+					}
+
+					private void handleResponseCode(Context context, int statusCode) {
+						//TODO: remove condition for HttpURLConnection.HTTP_SEE_OTHER when server
+						// will return status value (not prepare a redirect after successful transaction)
+						if (statusCode == HttpURLConnection.HTTP_OK ||
+								statusCode == HttpURLConnection.HTTP_ACCEPTED ||
+								statusCode == HttpURLConnection.HTTP_MOVED_TEMP) {
+							Toast.makeText(context, R.string.transaction_completed, Toast.LENGTH_LONG).show();
+						}
 					}
 				}
 		);

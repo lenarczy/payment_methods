@@ -3,4 +3,5 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_gpay">GPayActivity</string>
+    <string name="transaction_completed">Example transaction submitted. You can list all transactions in Braintree dashboard.</string>
 </resources>
