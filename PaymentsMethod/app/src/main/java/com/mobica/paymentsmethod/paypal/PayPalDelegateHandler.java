@@ -21,12 +21,14 @@ public class PayPalDelegateHandler {
 
 	private static final String TAG = "PayPal";
 	private static final String TEST_SERVER_URL = "https://braintreetestapplication-php.herokuapp.com/";
+	private static final String TEST_CHECKOUT_URL = TEST_SERVER_URL + "checkout.php";
+	private static final String TEST_TOKEN_URL = TEST_SERVER_URL + "client_token";
 
 	private String clientToken;
 
 	public void updateClientToken() {
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.get(TEST_SERVER_URL + "client_token", new TextHttpResponseHandler() {
+		client.get(TEST_TOKEN_URL, new TextHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, String token) {
 				Log.d(TAG, "Response after get token from server: " + token);
@@ -71,12 +73,11 @@ public class PayPalDelegateHandler {
 		//TODO: replace test nonce with one returned from server
 		params.put("payment_method_nonce", "fake-valid-nonce");
 		params.put("amount", "55");
-		client.post(TEST_SERVER_URL + "checkout.php", params,
+		client.post(TEST_CHECKOUT_URL, params,
 				new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 						Log.d(TAG, "Response after post nonce to server.statusCode: " + statusCode);
-						Log.d(TAG, "Response after post nonce to server.responseBody: " + new String(responseBody));
 					}
 
 					@Override
