@@ -2,23 +2,22 @@ package com.mobica.paymentsmethod.paypal
 
 import android.content.Intent
 import android.support.v4.app.Fragment
-import android.widget.Toast
 import com.mobica.paymentsmethod.PaymentMethodDelegate
 
-class PayPalDelegate(private val fragment: Fragment): PaymentMethodDelegate {
-    private val payPalDelegateHandler = PayPalDelegateHandler()
+class PayPalDropUIDelegate(private val fragment: Fragment): PaymentMethodDelegate {
+    private val payPalHandler = PayPalHandler()
 
     override fun init() {
-        payPalDelegateHandler.updateClientToken()
+        payPalHandler.updateClientToken()
     }
 
     override fun requestCode() = 4
 
     override fun startActivityForResult() {
-        payPalDelegateHandler.startPayPalActivity(fragment, requestCode())
+        payPalHandler.startPayPalActivity(fragment, requestCode())
     }
 
     override fun handleActivityResult(resultCode: Int, data: Intent?) {
-        payPalDelegateHandler.handlePaypalData(fragment.context, data)
+        payPalHandler.handlePaypalData(fragment.context, data)
     }
 }

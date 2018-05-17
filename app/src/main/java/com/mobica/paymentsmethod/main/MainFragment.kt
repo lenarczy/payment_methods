@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.mobica.paymentsmethod.PaymentMethodDelegate
 import com.mobica.paymentsmethod.R
-import com.mobica.paymentsmethod.cardio.CardIODelegate
 import com.mobica.paymentsmethod.gpay.GPayDelegate
 import com.mobica.paymentsmethod.paycard.CARD_IMAGE
 import com.mobica.paymentsmethod.paycard.CARD_INFO
 import com.mobica.paymentsmethod.paycard.PayCardDelegate
-import com.mobica.paymentsmethod.paypal.PayPalDelegate
+import com.mobica.paymentsmethod.paypal.PayPalDirectDelegate
+import com.mobica.paymentsmethod.paypal.PayPalDropUIDelegate
 import kotlinx.android.synthetic.main.fragment_main.*
 import timber.log.Timber
 
@@ -53,7 +53,8 @@ class MainFragment : Fragment() {
             put(PaymentItem("Pay Card", scannerSubtitle), PayCardDelegate(this@MainFragment))
 //            put(PaymentItem("Card IO", scannerSubtitle), CardIODelegate(this@MainFragment))
             put(PaymentItem("Google Pay", paymentMethodSubtitle), GPayDelegate(this@MainFragment))
-            put(PaymentItem( "Pay pal", paymentMethodSubtitle), PayPalDelegate(this@MainFragment))
+            put(PaymentItem( "Pay pal with credit card option", paymentMethodSubtitle), PayPalDropUIDelegate(this@MainFragment))
+            put(PaymentItem( "Pay pal", paymentMethodSubtitle), PayPalDirectDelegate(this@MainFragment))
         }
     }
 
