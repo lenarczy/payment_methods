@@ -38,6 +38,7 @@ dependencies {
 //    implementation 'io.card:android-sdk:5.5.0'
     implementation 'com.braintreepayments.api:drop-in:3.+'
     implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation(name:'visacheckout-android-sdk-6.2.0', ext:'aar')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

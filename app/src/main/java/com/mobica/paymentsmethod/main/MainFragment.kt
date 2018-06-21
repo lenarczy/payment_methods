@@ -16,6 +16,7 @@ import com.mobica.paymentsmethod.paycard.CARD_INFO
 import com.mobica.paymentsmethod.paycard.PayCardDelegate
 import com.mobica.paymentsmethod.paypal.PayPalDirectDelegate
 import com.mobica.paymentsmethod.paypal.PayPalDropUIDelegate
+import com.mobica.paymentsmethod.visa.VisaCheckoutDelegate
 import kotlinx.android.synthetic.main.fragment_main.*
 import timber.log.Timber
 
@@ -55,6 +56,11 @@ class MainFragment : Fragment() {
             put(PaymentItem("Google Pay", paymentMethodSubtitle), GPayDelegate(this@MainFragment))
             put(PaymentItem( "Pay pal with credit card option", paymentMethodSubtitle), PayPalDropUIDelegate(this@MainFragment))
             put(PaymentItem( "Pay pal", paymentMethodSubtitle), PayPalDirectDelegate(this@MainFragment))
+            put(PaymentItem( "Visa checkout", paymentMethodSubtitle), VisaCheckoutDelegate(this@MainFragment))
+        }
+
+        methodDelegates.values.forEach {
+            it.init()
         }
     }
 
@@ -81,15 +87,12 @@ class MainFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
+        Timber.d("onAttach $this")
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-
-        methodDelegates.values.forEach {
-            it.init()
         }
     }
 
