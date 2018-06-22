@@ -2,6 +2,7 @@ package com.mobica.paymentsmethod.visa
 
 import android.content.Intent
 import android.support.v4.app.Fragment
+import android.widget.Toast
 import com.mobica.paymentsmethod.PaymentMethodDelegate
 import com.visa.checkout.*
 import com.visa.checkout.ManualCheckoutSession.ManualCheckoutLaunchHandler
@@ -48,9 +49,13 @@ class VisaCheckoutDelegate(private val fragment: Fragment) : PaymentMethodDelega
     override fun requestCode() = 6
 
     override fun startActivityForResult() {
-        if (launchHandler != null) {
-            launchHandler?.launch()
+        if (launchHandler == null) {
+            val message = "VisaCheckout is not ready yet."
+            Timber.d(message)
+            Toast.makeText(fragment.context, message, Toast.LENGTH_SHORT).show()
+            return
         }
+        launchHandler?.launch()
     }
 
     override fun handleActivityResult(resultCode: Int, data: Intent?) {
